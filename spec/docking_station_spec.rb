@@ -2,6 +2,7 @@ require 'docking_station.rb'
 
 describe DockingStation do
   let(:bike) { double :bike }
+  let(:station) {described_class.new}
 
   it "responds to release_bike" do
     expect(subject).to respond_to :release_bike

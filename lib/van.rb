@@ -1,6 +1,6 @@
-require_relative 'bike.rb'
+require_relative 'docking_station'
 
-class DockingStation
+class Van
 
 attr_reader :bikes, :capacity
 
@@ -11,6 +11,16 @@ def initialize(capacity=DEFAULT_CAPACITY)
   @capacity = capacity
 
 end
+
+
+def van_collect(station)
+  (bikes << station.bikes.delete_if{|bike| bike.working?}).flatten
+end
+
+end
+
+=begin
+
 
   def release_bike
     fail 'No bikes available' if empty?
@@ -42,6 +52,3 @@ Long-winded way of doing:
   end
   !(truth.include?(true))
 =end
-end
-
-end
