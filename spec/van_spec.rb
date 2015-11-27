@@ -10,19 +10,19 @@ describe Van do
   end
 
 
-  describe "#van_collect" do
+  describe "#van_station_collect" do
 
     it "collects broken bikes over working" do
       working_bike = double(:working_bike, working?: true)
       broken_bike = double(:broken_bike, working?: false)
       station = double(:station, bikes: [working_bike, broken_bike], capacity: Van::DEFAULT_CAPACITY - 1)
-      expect(subject.van_collect(station)).to eq [broken_bike]
+      expect(subject.van_station_collect(station)).to eq [broken_bike]
     end
 
     it "raises an error when van full" do
 
       station = double(:station, capacity: Van::DEFAULT_CAPACITY + 1)
-      expect{subject.van_collect(station)}.to raise_error 'Van full'
+      expect{subject.van_station_collect(station)}.to raise_error 'Van full'
     end
   end
 
@@ -35,12 +35,12 @@ describe Van do
       bike = double(:bike, working?: false)
       Van::DEFAULT_CAPACITY.times{array.concat([bike])}
       station = double(:station, bikes: array, capacity: Van::DEFAULT_CAPACITY)
-      expect(subject.van_collect(station)).to eq array
+      expect(subject.van_station_collect(station)).to eq array
     end
 
     it "raises an error when full van" do
       allow(station).to receive(:capacity) {61}
-      expect{subject.van_collect(station)}.to raise_error 'Van full'
+      expect{subject.van_station_collect(station)}.to raise_error 'Van full'
     end
 
   end
@@ -50,20 +50,35 @@ describe Van do
     expect(station.capacity).to eq 40
   end
 
+  describe "#van_station_deliver" do
+
+  #Am stuck at this point:
+
+    it "loses bikes upon delivery" do
+      allow(bike).to receive(:working?) {true}
+      station = double(:station, bikes: [bike, bike], capacity: Van::DEFAULT_CAPACITY)
+      subject.van_station_collect(station)
+      subject.van_station_deliver(station)
+      expect(subject.bikes).to be_empty
+    end
+
+
+  end
+
 
 end
 
 =begin
 
-  describe "#release_bike" do
-    it 'releases a bike' do
-      allow(bike).to receive(:working?) {true}
-      subject.dock(bike)
-      expect(subject.release_bike).to eq bike
-    end
-    it 'raises an error when there are no bikes available' do
-      expect{subject.release_bike}.to raise_error 'No bikes available'
-    end
-  end
+describe "#release_bike" do
+it 'releases a bike' do
+allow(bike).to receive(:working?) {true}
+subject.dock(bike)
+expect(subject.release_bike).to eq bike
+end
+it 'raises an error when there are no bikes available' do
+expect{subject.release_bike}.to raise_error 'No bikes available'
+end
+end
 
 =end
