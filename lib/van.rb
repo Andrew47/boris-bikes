@@ -14,6 +14,7 @@ end
 
 
 def van_collect(station)
+  fail 'Van full' if capacity < station.capacity
   (bikes << station.bikes.delete_if{|bike| bike.working?}).flatten
 end
 
@@ -32,6 +33,8 @@ def dock(bike)
   fail 'Docking station full' if full?
   bikes << bike
 end
+
+
 
 private
 
