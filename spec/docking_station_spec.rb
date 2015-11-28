@@ -1,8 +1,11 @@
 require 'docking_station.rb'
+require 'support/shared_examples_for_bike_container'
 
 describe DockingStation do
   let(:bike) { double :bike }
   let(:station) {described_class.new}
+
+  it_behaves_like BikeContainer
 
   it "responds to release_bike" do
     expect(subject).to respond_to :release_bike
@@ -30,16 +33,12 @@ describe DockingStation do
     expect{subject.release_bike}.to raise_error "All bikes broken"
   end
 
-  it "can doc to station" do
+  it "can dock to station" do
     expect(subject).to respond_to(:dock).with(1).argument
   end
 
   it "responds to bike" do
     expect(subject).to respond_to :bikes
-  end
-
-  it  'has a default capacity' do
-    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 
 
@@ -51,7 +50,7 @@ describe DockingStation do
 
     it "raises an error when station is full" do
       subject.capacity.times {subject.dock(double(:bike))}
-      expect{subject.dock(double(:bike))}.to raise_error 'Docking station full'
+      expect{subject.dock(double(:bike))}.to raise_error 'DockingStation full'
     end
 
     context "system maintainer has raised capacity" do
@@ -66,7 +65,7 @@ describe DockingStation do
 
       it "raises an error when station is full" do
         60.times {subject.dock(bike)}
-        expect{subject.dock(bike)}.to raise_error 'Docking station full'
+        expect{subject.dock(bike)}.to raise_error 'DockingStation full'
       end
 
     end
@@ -92,6 +91,10 @@ describe DockingStation do
   it "can assign a capacity value at initialize" do
     station = DockingStation.new(40)
     expect(station.capacity).to eq 40
+  end
+
+  it  'has a default capacity' do
+    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 
 end

@@ -27,8 +27,6 @@ class Van
     fail 'Van full' if bikes.size + garage.bikes.select{|bike| bike.working?}.size > capacity
     bikes.concat(garage.bikes.select{|bike| bike.working?})
     garage.bikes.delete_if{|bike| bike.working?}
-
-
   end
 
 

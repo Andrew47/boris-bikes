@@ -1,6 +1,9 @@
 require_relative 'bike.rb'
+require_relative 'bike_container'
 
 class DockingStation
+
+include BikeContainer
 
 attr_reader :bikes, :capacity
 
@@ -19,29 +22,13 @@ end
   end
 
 def dock(bike)
-  fail 'Docking station full' if full?
-  bikes << bike
+  add_bike bike
 end
 
 private
 
-def empty?
-  bikes.empty?
-end
-
-def full?
-  bikes.count >= capacity
-end
-
 def all_broken?
   bikes.all?{|bike| bike.working? == false}
-=begin
-Long-winded way of doing:
-  truth = bikes.map do |bike|
-    bike.working?
-  end
-  !(truth.include?(true))
-=end
 end
 
 end
