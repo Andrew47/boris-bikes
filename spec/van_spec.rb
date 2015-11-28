@@ -65,7 +65,13 @@ describe Van do
         expect{subject.van_station_exchange(station)}.to raise_error "Van full"
       end
 
-      
+      it "#van_garage_exchange raises an error when van full" do
+        working_bike = double(:working_bike, working?: true)
+        array = []
+        (subject.capacity + 1).times{array<<working_bike}
+        garage = double(:garage, bikes: array)
+        expect{subject.van_garage_exchange(garage)}.to raise_error "Van full"
+      end
     end
 
 =begin

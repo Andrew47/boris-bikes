@@ -22,11 +22,13 @@ class Van
   end
 
   def van_garage_exchange(garage)
+    garage.bikes.concat(bikes.select{|bike| !bike.working?})
+    bikes.delete_if{|bike| !bike.working?}
+    fail 'Van full' if bikes.size + garage.bikes.select{|bike| bike.working?}.size > capacity
     bikes.concat(garage.bikes.select{|bike| bike.working?})
     garage.bikes.delete_if{|bike| bike.working?}
 
-    garage.bikes.concat(bikes.select{|bike| !bike.working?})
-    bikes.delete_if{|bike| !bike.working?}
+
   end
 
 
