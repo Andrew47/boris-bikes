@@ -6,10 +6,6 @@ describe Van do
   let(:garage) {double :garage}
   let(:van) {described_class.new}
 
-  it  'has a default capacity' do
-    expect(subject.capacity).to eq Van::DEFAULT_CAPACITY
-  end
-
 
   describe "#van_station_exchange" do
 
@@ -53,6 +49,23 @@ describe Van do
         expect(garage.bikes).to eq [broken_bike]
       end
 
+    end
+
+    context "van's capacity" do
+
+      it  'has a default capacity' do
+        expect(subject.capacity).to eq Van::DEFAULT_CAPACITY
+      end
+
+      it "#van_station_exchange raises an error when van full" do
+        broken_bike = double(:broken_bike, working?: false)
+        array = []
+        (subject.capacity + 1).times{array<<broken_bike}
+        station = double(:station, bikes: array)
+        expect{subject.van_station_exchange(station)}.to raise_error "Van full"
+      end
+
+      
     end
 
 =begin
