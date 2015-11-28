@@ -10,4 +10,15 @@ describe Garage do
     expect(subject.bikes.all?{|bike| bike.working?}).to eq true
   end
 
+  describe "#at_capacity?" do
+    it "gives true if garage would be full after exchange with van" do
+      bike = double(:bike, working?: true)
+      subject.capacity.times {subject.bikes<<bike}
+      van = double(:van, bikes: [bike])
+      expect(subject.at_capacity?(van)).to eq true
+    end
+
+  end
+
+
 end

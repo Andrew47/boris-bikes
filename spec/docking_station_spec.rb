@@ -41,35 +41,20 @@ describe DockingStation do
     expect(subject).to respond_to :bikes
   end
 
+  context "system maintainer has raised capacity" do
+    subject {DockingStation.new(60)}
+    let(:bike) {double(:bike)}
 
-  describe "#dock" do
-    it "docks something" do
-      expect(subject.dock(bike)).to eq [bike]
+    it "accepts more bikes than before" do
+      DockingStation::DEFAULT_CAPACITY.times {subject.dock(bike)}
+      expect(subject.dock(bike)).to eq subject.bikes
     end
 
 
     it "raises an error when station is full" do
-      subject.capacity.times {subject.dock(double(:bike))}
-      expect{subject.dock(double(:bike))}.to raise_error 'DockingStation full'
+      60.times {subject.dock(bike)}
+      expect{subject.dock(bike)}.to raise_error 'DockingStation full'
     end
-
-    context "system maintainer has raised capacity" do
-      subject {DockingStation.new(60)}
-      let(:bike) {double(:bike)}
-
-      it "accepts more bikes than before" do
-        DockingStation::DEFAULT_CAPACITY.times {subject.dock(bike)}
-        expect(subject.dock(bike)).to eq subject.bikes
-      end
-
-
-      it "raises an error when station is full" do
-        60.times {subject.dock(bike)}
-        expect{subject.dock(bike)}.to raise_error 'DockingStation full'
-      end
-
-    end
-
 
   end
 
@@ -88,6 +73,9 @@ describe DockingStation do
     end
   end
 
+=begin
+  Below is obsolete code
+
   it "can assign a capacity value at initialize" do
     station = DockingStation.new(40)
     expect(station.capacity).to eq 40
@@ -97,4 +85,20 @@ describe DockingStation do
     expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
   end
 
-end
+  describe "#dock" do
+    it "docks something" do
+      expect(subject.dock(bike)).to eq [bike]
+    end
+
+
+    it "raises an error when station is full" do
+      subject.capacity.times {subject.dock(double(:bike))}
+      expect{subject.dock(double(:bike))}.to raise_error 'DockingStation full'
+    end
+
+
+
+
+=end
+
+  end

@@ -1,17 +1,9 @@
 require_relative 'docking_station'
+require_relative 'bike_container'
 
 class Van
 
-  attr_reader :bikes, :capacity
-
-  DEFAULT_CAPACITY= 20
-
-  def initialize(capacity=DEFAULT_CAPACITY)
-    @bikes = []
-    @capacity = capacity
-
-  end
-
+  include BikeContainer
 
   def van_station_exchange(station)
     station.bikes.concat(bikes.select{|bike| bike.working?})
@@ -22,6 +14,7 @@ class Van
   end
 
   def van_garage_exchange(garage)
+    fail 'Garage full' if garage.at_capacity?(self)
     garage.bikes.concat(bikes.select{|bike| !bike.working?})
     bikes.delete_if{|bike| !bike.working?}
     fail 'Van full' if bikes.size + garage.bikes.select{|bike| bike.working?}.size > capacity
