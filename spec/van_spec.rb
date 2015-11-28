@@ -13,7 +13,6 @@ describe Van do
 
   describe "#van_station_exchange" do
 
-
     it "delivers working bikes over broken" do
       station = double(:station, bikes: [])
       working_bike = double(:working_bike, working?: true)
@@ -21,6 +20,7 @@ describe Van do
       subject.bikes.concat([working_bike,broken_bike])
       subject.van_station_exchange(station)
       expect(subject.bikes).to eq [broken_bike]
+      expect(station.bikes).to eq [working_bike]
     end
 
     it "collects broken bikes over working" do
@@ -29,9 +29,29 @@ describe Van do
       station = double(:station, bikes: [working_bike, broken_bike])
       subject.van_station_exchange(station)
       expect(subject.bikes).to eq [broken_bike]
+      expect(station.bikes).to eq [working_bike]
     end
 
-    describe "#van_garage_collect" do
+    describe "#van_garage_exchange" do
+
+      it "delivers broken bikes over working" do
+        garage = double(:garage, bikes: [])
+        working_bike = double(:working_bike, working?: true)
+        broken_bike = double(:broken_bike, working?: false)
+        subject.bikes.concat([working_bike,broken_bike])
+        subject.van_garage_exchange(garage)
+        expect(subject.bikes).to eq [working_bike]
+        expect(garage.bikes).to eq [broken_bike]
+      end
+
+      it "collects working bikes over broken" do
+        working_bike = double(:working_bike, working?: true)
+        broken_bike = double(:broken_bike, working?: false)
+        garage = double(:garage, bikes: [working_bike, broken_bike])
+        subject.van_garage_exchange(garage)
+        expect(subject.bikes).to eq [working_bike]
+        expect(garage.bikes).to eq [broken_bike]
+      end
 
     end
 
