@@ -11,24 +11,28 @@ describe Van do
   end
 
 
-  describe "#van_station_collect" do
+  describe "#van_station_exchange" do
 
 
     it "delivers working bikes over broken" do
-      station = double(:station, bikes: [], capacity: Van::DEFAULT_CAPACITY - 1)
+      station = double(:station, bikes: [])
       working_bike = double(:working_bike, working?: true)
       broken_bike = double(:broken_bike, working?: false)
       subject.bikes.concat([working_bike,broken_bike])
-      subject.van_station_collect(station)
+      subject.van_station_exchange(station)
       expect(subject.bikes).to eq [broken_bike]
     end
 
     it "collects broken bikes over working" do
       working_bike = double(:working_bike, working?: true)
       broken_bike = double(:broken_bike, working?: false)
-      station = double(:station, bikes: [working_bike, broken_bike], capacity: Van::DEFAULT_CAPACITY - 1)
-      subject.van_station_collect(station)
+      station = double(:station, bikes: [working_bike, broken_bike])
+      subject.van_station_exchange(station)
       expect(subject.bikes).to eq [broken_bike]
+    end
+
+    describe "#van_garage_collect" do
+
     end
 
 =begin
@@ -36,7 +40,7 @@ describe Van do
     it "raises an error when van full" do
 
       station = double(:station, capacity: Van::DEFAULT_CAPACITY + 1)
-      expect{subject.van_station_collect(station)}.to raise_error 'Van full'
+      expect{subject.van_station_exchange(station)}.to raise_error 'Van full'
     end
 
 
@@ -52,12 +56,12 @@ describe Van do
       bike = double(:bike, working?: false)
       Van::DEFAULT_CAPACITY.times{array.concat([bike])}
       station = double(:station, bikes: array, capacity: Van::DEFAULT_CAPACITY)
-      expect(subject.van_station_collect(station)).to eq array
+      expect(subject.van_station_exchange(station)).to eq array
     end
 
     it "raises an error when full van" do
       allow(station).to receive(:capacity) {61}
-      expect{subject.van_station_collect(station)}.to raise_error 'Van full'
+      expect{subject.van_station_exchange(station)}.to raise_error 'Van full'
     end
 
   end
@@ -70,7 +74,7 @@ describe Van do
   describe "#van_garage_deliver" do
 
   #Am stuck at this point:
-  
+
     it "delivers broken bikes" do
       subject.bikes.concat([bike,bike])
       subject.van_garage_deliver(garage)
