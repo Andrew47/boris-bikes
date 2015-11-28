@@ -1,7 +1,7 @@
 module BikeContainer
   DEFAULT_CAPACITY = 20
 
-  attr_reader :capacity, :bikes
+  attr_reader :capacity
 
   def initialize(capacity=DEFAULT_CAPACITY)
     @capacity = capacity
@@ -25,6 +25,10 @@ module BikeContainer
   def full?
     bikes.count >= capacity
   end
+
+private
+
+attr_reader :bikes
 
 
 

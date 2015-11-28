@@ -16,9 +16,9 @@ describe Van do
       station = double(:station, bikes: [])
       working_bike = double(:working_bike, working?: true)
       broken_bike = double(:broken_bike, working?: false)
-      subject.bikes.concat([working_bike,broken_bike])
+      subject.send(:bikes).concat([working_bike,broken_bike])
       subject.van_station_exchange(station)
-      expect(subject.bikes).to eq [broken_bike]
+      expect(subject.send(:bikes)).to eq [broken_bike]
       expect(station.bikes).to eq [working_bike]
     end
 
@@ -27,7 +27,7 @@ describe Van do
       broken_bike = double(:broken_bike, working?: false)
       station = double(:station, bikes: [working_bike, broken_bike])
       subject.van_station_exchange(station)
-      expect(subject.bikes).to eq [broken_bike]
+      expect(subject.send(:bikes)).to eq [broken_bike]
       expect(station.bikes).to eq [working_bike]
     end
 
@@ -37,9 +37,9 @@ describe Van do
         garage = double(:garage, bikes: [], at_capacity?: false)
         working_bike = double(:working_bike, working?: true)
         broken_bike = double(:broken_bike, working?: false)
-        subject.bikes.concat([working_bike,broken_bike])
+        subject.send(:bikes).concat([working_bike,broken_bike])
         subject.van_garage_exchange(garage)
-        expect(subject.bikes).to eq [working_bike]
+        expect(subject.send(:bikes)).to eq [working_bike]
         expect(garage.bikes).to eq [broken_bike]
       end
 
@@ -48,7 +48,7 @@ describe Van do
         broken_bike = double(:broken_bike, working?: false)
         garage = double(:garage, bikes: [working_bike, broken_bike], at_capacity?: false)
         subject.van_garage_exchange(garage)
-        expect(subject.bikes).to eq [working_bike]
+        expect(subject.send(:bikes)).to eq [working_bike]
         expect(garage.bikes).to eq [broken_bike]
       end
 
