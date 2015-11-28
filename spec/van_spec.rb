@@ -3,6 +3,7 @@ require 'van'
 describe Van do
   let(:station) { double :station }
   let(:bike) {double :bike}
+  let(:garage) {double :garage}
   let(:van) {described_class.new}
 
   it  'has a default capacity' do
@@ -12,18 +13,34 @@ describe Van do
 
   describe "#van_station_collect" do
 
+
+    it "delivers working bikes over broken" do
+      station = double(:station, bikes: [], capacity: Van::DEFAULT_CAPACITY - 1)
+      working_bike = double(:working_bike, working?: true)
+      broken_bike = double(:broken_bike, working?: false)
+      subject.bikes.concat([working_bike,broken_bike])
+      subject.van_station_collect(station)
+      expect(subject.bikes).to eq [broken_bike]
+    end
+
     it "collects broken bikes over working" do
       working_bike = double(:working_bike, working?: true)
       broken_bike = double(:broken_bike, working?: false)
       station = double(:station, bikes: [working_bike, broken_bike], capacity: Van::DEFAULT_CAPACITY - 1)
-      expect(subject.van_station_collect(station)).to eq [broken_bike]
+      subject.van_station_collect(station)
+      expect(subject.bikes).to eq [broken_bike]
     end
+
+=begin
 
     it "raises an error when van full" do
 
       station = double(:station, capacity: Van::DEFAULT_CAPACITY + 1)
       expect{subject.van_station_collect(station)}.to raise_error 'Van full'
     end
+
+
+
   end
 
   context "van has raised capacity" do
@@ -50,17 +67,18 @@ describe Van do
     expect(station.capacity).to eq 40
   end
 
-  describe "#van_station_deliver" do
+  describe "#van_garage_deliver" do
 
   #Am stuck at this point:
-
-    it "loses bikes upon delivery" do
-      allow(bike).to receive(:working?) {true}
-      station = double(:station, bikes: [bike, bike], capacity: Van::DEFAULT_CAPACITY)
-      subject.van_station_collect(station)
-      subject.van_station_deliver(station)
+  
+    it "delivers broken bikes" do
+      subject.bikes.concat([bike,bike])
+      subject.van_garage_deliver(garage)
       expect(subject.bikes).to be_empty
     end
+=end
+
+
 
 
   end
