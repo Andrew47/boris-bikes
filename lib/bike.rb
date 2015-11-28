@@ -15,6 +15,12 @@ class Bike
     self
   end
 
+  private
+
+  def mend
+    @working = true
+  end
+
 
 
 

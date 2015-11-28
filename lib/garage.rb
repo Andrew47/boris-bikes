@@ -12,4 +12,9 @@ class Garage
 
   end
 
+  def mend
+    bikes.map! { |bike| bike.mend  }
+    bikes
+  end
+
 end
