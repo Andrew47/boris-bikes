@@ -109,3 +109,6 @@ As a maintainer of the system,
 So that I can manage broken bikes and not disappoint users,
 I'd like vans to collect working bikes from garages and distribute them to docking stations.
 ```
+
+##Author
+* [Andrew Burnie](https://github.com/Andrew47)
