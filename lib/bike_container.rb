@@ -26,10 +26,6 @@ module BikeContainer
     bikes.count >= capacity
   end
 
-private
-
-attr_reader :bikes
-
-
+  attr_reader :bikes
 
 end

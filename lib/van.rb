@@ -1,4 +1,3 @@
-require_relative 'docking_station'
 require_relative 'bike_container'
 
 class Van

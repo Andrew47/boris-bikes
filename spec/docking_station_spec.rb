@@ -12,7 +12,6 @@ describe DockingStation do
   end
 
   it "released bike is working" do
-    #Alternative to let and below: bike = double('bike', working?: true)
     allow(bike).to receive(:working?) { true }
     subject.dock bike
     bike = subject.release_bike
@@ -72,33 +71,4 @@ describe DockingStation do
       expect{subject.release_bike}.to raise_error 'No bikes available'
     end
   end
-
-=begin
-  Below is obsolete code
-
-  it "can assign a capacity value at initialize" do
-    station = DockingStation.new(40)
-    expect(station.capacity).to eq 40
-  end
-
-  it  'has a default capacity' do
-    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
-  end
-
-  describe "#dock" do
-    it "docks something" do
-      expect(subject.dock(bike)).to eq [bike]
-    end
-
-
-    it "raises an error when station is full" do
-      subject.capacity.times {subject.dock(double(:bike))}
-      expect{subject.dock(double(:bike))}.to raise_error 'DockingStation full'
-    end
-
-
-
-
-=end
-
-  end
+end

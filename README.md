@@ -1,3 +1,111 @@
-#Boris_Bikes
+Boris Bikes Challenges
+======================
 
-- Own solutions to Makers Academy Week 1 exercise 'Boris Bikes'.
+This is a solution to [Makers Academy's Boris Bikes Challenges](https://github.com/makersacademy/course/blob/master/boris_bikes/0_challenge_map.md).
+
+These solutions employ a test-driven approach, with unit tests implemented using RSpec.
+
+##Installation
+Need to clone the repository and then change into the directory:
+```
+$ git clone git@github.com:Andrew47/boris-bikes.git
+$ cd boris-bikes
+```
+##Usage
+
+Need to load the different app files:
+
+```
+$ require './lib/bike'
+$ require './lib/docking_station'
+$ require './lib/garage'
+$ require './lib/van'
+```
+
+The following will create a bike, docking station, garage and van respectively:
+
+```
+$ bike = Bike.new
+$ docking_station = DockingStation.new
+$ garage = Garage.new
+$ van = Van.new
+```
+###Members of the Public can:
+
+* Release bikes from docking stations: `docking_station.release_bike`
+* Dock bikes at docking stations: `docking_station.dock(bike)`
+* See the bikes in the station: `docking_station.bikes`
+* Report broken bikes: `bike.broken`
+* See if bike is working: `bike.working?`
+
+Members of the public cannot dock bikes at full docking stations, nor release a bike
+if a working bike is not available at a station.
+
+##System Maintainers can:
+
+* Move broken bikes from the docking station to the garage for repairs:
+```
+van.van_station_exchange(docking_station)
+van.van_garage_exchange(garage)
+```
+* Repair the bikes at the garage: `garage.mend`
+* Move working bikes from the garage back to the docking station:
+```
+van.van_garage_exchange(garage)
+van.van_station_exchange(docking_station)
+```
+
+##User Stories being met
+```
+As a person,
+So that I can use a bike,
+I'd like a docking station to release a bike.
+
+As a person,
+So that I can use a good bike,
+I'd like to see if a bike is working
+
+As a member of the public
+So I can return bikes I've hired
+I want to dock my bike at the docking station
+
+As a member of the public
+So I can decide whether to use the docking station
+I want to see a bike that has been docked
+
+As a member of the public,
+So that I am not confused and charged unnecessarily,
+I'd like docking stations not to release bikes when there are none available.
+
+As a maintainer of the system,
+So that I can control the distribution of bikes,
+I'd like docking stations not to accept more bikes than their capacity.
+
+As a system maintainer,
+So that I can plan the distribution of bikes,
+I want a docking station to have a default capacity of 20 bikes.
+
+As a system maintainer,
+So that busy areas can be served more effectively,
+I want to be able to specify a larger capacity when necessary.
+
+As a member of the public,
+So that I reduce the chance of getting a broken bike in future,
+I'd like to report a bike as broken when I return it.
+
+As a maintainer of the system,
+So that I can manage broken bikes and not disappoint users,
+I'd like docking stations not to release broken bikes.
+
+As a maintainer of the system,
+So that I can manage broken bikes and not disappoint users,
+I'd like docking stations to accept returning bikes (broken or not).
+
+As a maintainer of the system,
+So that I can manage broken bikes and not disappoint users,
+I'd like vans to take broken bikes from docking stations and deliver them to garages to be fixed.
+
+As a maintainer of the system,
+So that I can manage broken bikes and not disappoint users,
+I'd like vans to collect working bikes from garages and distribute them to docking stations.
+```

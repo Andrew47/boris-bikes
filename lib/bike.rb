@@ -1,4 +1,3 @@
-
 class Bike
 
   def initialize
@@ -19,9 +18,7 @@ class Bike
 
   def mend
     @working = true
+    self
   end
-
-
-
 
 end

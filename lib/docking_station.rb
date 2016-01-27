@@ -1,4 +1,3 @@
-require_relative 'bike.rb'
 require_relative 'bike_container'
 
 class DockingStation

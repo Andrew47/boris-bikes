@@ -1,15 +1,11 @@
-require_relative 'van'
-
 class Garage
 
   include BikeContainer
 
   def mend
-    bikes.map! { |bike| bike.mend  }
+    bikes.map! { |bike| bike.send :mend  }
     bikes
   end
-
-private
 
   def at_capacity?(van)
     (bikes + van.bikes).select{|bike| bike.working?}.size > capacity
